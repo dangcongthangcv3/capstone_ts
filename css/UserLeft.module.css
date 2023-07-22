@@ -1,0 +1,8 @@
+.left {
+  background: url("../../assets/img/backgrounduser3.jpg");
+  height: 100vh;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

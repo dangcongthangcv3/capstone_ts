@@ -1,0 +1,62 @@
+.header {
+    border-bottom: 1px solid #666666;
+
+    .headerTop {
+        padding: 5px 40px;
+        line-height: 30px;
+        background: white;
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        display: flex;
+        justify-content: space-between;
+        a {
+            color: black !important;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .nav {
+            display: flex;
+            .dropdown {
+                margin-left: 20px;
+
+
+                .btnNav {
+                    --tw-text-opacity: 1;
+                    font-weight: 500;
+                    font-size: 19px;
+                    padding: 15px 0 10px;
+                    color: rgba(29, 78, 216, var(--tw-text-opacity)) !important;
+                    text-decoration: none !important;
+                }
+            }
+
+        }
+        .personal{
+            display: flex;
+            .dropdown{
+                .dropdown-toggle::after {
+                    content: none;
+                  }
+            }
+        }
+    }
+}
+
+.dropdownMenuWhite {
+    background-color: white;
+
+    a {
+        color: black;
+    }
+    span{
+        color:rgba(0,0,0,.45);
+        padding: 5px 12px;
+        font-weight: 700;
+    }
+    :hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+}
