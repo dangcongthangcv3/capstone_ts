@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GlobalCss from './Component/GlobalCss/GlobalCss';
 import LogIn from './pages/Login/LogIn';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom';
 import Register from './pages/Register/Register';
 import { Provider } from 'react-redux';
 import { store } from './Redux/ConfigStore';
 import Home from './pages/Home/Home';
 import UserTemplate from './Templates/UserTemplate/UserTemplate';
 import HomeTemplate from './Templates/HomeTemplate/HomeTemplate';
+import {createBrowserHistory} from 'history'
+
+
+export const history:any = createBrowserHistory();
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +21,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <GlobalCss>
     <Provider store={store}>
-      <BrowserRouter>
+      <HistoryRouter history={history}>
         <Routes>
         {/* <Route path='' element={<HomeTemplate />}>
             <Route index element={<Home />}></Route>
@@ -31,7 +36,7 @@ root.render(
           
         </Routes>
 
-      </BrowserRouter>
+      </HistoryRouter>
     </Provider>
   </GlobalCss>
 );

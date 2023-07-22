@@ -1,8 +1,5 @@
 import axios from "axios"
-// import {history} from '../index'
-
-
-// export const history : string |any = createBrowserHistory()
+import {history} from '../index'
 
 export const TOKEN_CYBERSOFT =   `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA0MyIsIkhldEhhblN0cmluZyI6IjI0LzExLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTcwMDc4NDAwMDAwMCIsIm5iZiI6MTY2OTQ4MjAwMCwiZXhwIjoxNzAwOTMxNjAwfQ.CnONd8cRnUWM4v5GIMD0mazwJUj4QugQ31-2UBFPlsw`
 export const DOMAIN = 'https://jiranew.cybersoft.edu.vn'
@@ -59,15 +56,15 @@ http.interceptors.request.use((config:any) => {
 
 
 
-// //Cấu hình cho response (kết quả trả về từ api)
-// http.interceptors.response.use((res)=>{ 
-//     return res;
-// },(err)=> {
-//     //Xử lý lỗi cho api bị lỗi theo status code 
-//     console.log(err);
-//     if(err.response?.status === 401) {
-//         alert('Đăng nhập để vào trang này !');
-//         history.push('/login');
-//     }
-//     return Promise.reject(err);
-// });
+//Cấu hình cho response (kết quả trả về từ api)
+http.interceptors.response.use((res)=>{ 
+    return res;
+},(err)=> {
+    //Xử lý lỗi cho api bị lỗi theo status code 
+    console.log(err);
+    if(err.response?.status === 401) {
+        alert('Đăng nhập để vào trang này !');
+        history.push('/login');
+    }
+    return Promise.reject(err);
+});
