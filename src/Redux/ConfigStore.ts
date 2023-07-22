@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import UserReducer from './reducers/userReducer';
-import homeReducer from './reducers/homeReducer';
+import UsersReducer from './reducers/UsersReducer';
+import DashBoardReducer from './reducers/DashBoardReducer';
 
 export const store = configureStore({
   reducer: {
-    UserReducer:UserReducer,
-    homeReducer:homeReducer
+    UsersReducer:UsersReducer,
+    DashBoardReducer:DashBoardReducer
   },
 })
 
