@@ -4,12 +4,12 @@ const initialState = {
 
 }
 
-const userReducer = createSlice({
-  name: 'userReducer',
+const UserReducer = createSlice({
+  name: 'UserReducer',
   initialState,
   reducers: {}
 });
 
-export const {} = userReducer.actions
+export const {} = UserReducer.actions
 
-export default userReducer.reducer
+export default UserReducer.reducer
