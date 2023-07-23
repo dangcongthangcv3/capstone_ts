@@ -10,7 +10,7 @@ type Props = {}
 export default function UserTemplate({ }: Props) {
     return (
         <div className='row' style={{width:'100%'}}>
-            <div className='col-md-7'>
+            <div className='col-md-7' style={{height: window.innerHeight}}>
                 <UserLeft />
             </div>
             <div className={clsx('col-md-5', styles.right)}>
