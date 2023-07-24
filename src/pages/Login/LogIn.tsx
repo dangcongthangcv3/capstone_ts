@@ -26,7 +26,7 @@ export default function LogIn({ }: Props) {
         console.log(values)
         const action = signIn(values)
         await dispatch(action).unwrap();
-        navigate('/admin/createproject')
+        navigate('/admin/project')
       } catch (err) {
         console.log(err)
       }

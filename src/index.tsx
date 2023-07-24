@@ -34,7 +34,7 @@ root.render(
             <Route path='register' element={<Register />}></Route>
           </Route>
           <Route path='admin' element={<HomeTemplate />}>
-            <Route index element={<Home />}></Route>
+            {/* <Route index element={<Home />}></Route> */}
             <Route path='project' element={<Project />}></Route>
             <Route path='createproject' element={<CreateProject />}></Route>
             <Route path='userview' element={<UserView />}></Route>
