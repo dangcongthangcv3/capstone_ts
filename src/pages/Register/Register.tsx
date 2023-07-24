@@ -41,6 +41,7 @@ export default function Register({ }: Props) {
 
         <Input size='large' placeholder='large size' prefix={<UserOutlined />}
           name='name' id='name'
+
           onInput={registerFrm.handleChange} />
         {/* <input className='form-control' placeholder='Email' id='email' onInput={loginFrm.handleChange} /> */}
       </div>
