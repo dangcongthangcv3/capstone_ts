@@ -9,14 +9,14 @@ import { store } from './Redux/ConfigStore';
 import Home from './pages/Home/Home';
 import UserTemplate from './Templates/UserTemplate/UserTemplate';
 import HomeTemplate from './Templates/HomeTemplate/HomeTemplate';
-import {createBrowserHistory} from 'history'
+import { createBrowserHistory } from 'history'
 import Project from './pages/Project/Project';
 import CreateProject from './pages/CreateProject/CreateProject';
 import UserView from './pages/UserView/UserView';
 import Profile from './pages/Profile/Profile';
 
 
-export const history:any = createBrowserHistory();
+export const history: any = createBrowserHistory();
 
 
 const root = ReactDOM.createRoot(
@@ -27,7 +27,7 @@ root.render(
     <Provider store={store}>
       <HistoryRouter history={history}>
         <Routes>
-        <Route path='' element={<HomeTemplate />}>
+          <Route path='admin' element={<HomeTemplate />}>
             <Route index element={<Home />}></Route>
             <Route path='home' element={<Home />}></Route>
             <Route path='project' element={<Project />}></Route>
@@ -35,13 +35,13 @@ root.render(
             <Route path='userview' element={<UserView />}></Route>
             <Route path='Profile' element={<Profile />}></Route>
           </Route>
-          {/* <Route path='' element={<UserTemplate />}>
+          <Route path='' element={<UserTemplate />}>
             <Route index element={<LogIn />}></Route>
             <Route path='login' element={<LogIn />}></Route>
             <Route path='/register' element={<Register />}></Route>
-          </Route> */}
+          </Route>
 
-          
+
         </Routes>
 
       </HistoryRouter>

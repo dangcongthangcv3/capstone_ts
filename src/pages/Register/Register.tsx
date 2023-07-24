@@ -1,28 +1,58 @@
-import React from 'react'
-import styles from '../Login/login.module.scss'
-import clsx from 'clsx'
-import { NavLink } from 'react-router-dom'
+import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
-import { UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons'
+import clsx from 'clsx'
+import { useFormik } from 'formik'
+import { NavLink } from 'react-router-dom'
+import { useAppDispatch } from '../../Redux/ConfigStore'
+import { RegisterJiraModel, register } from '../../Redux/reducers/UsersReducer'
+import styles from '../Login/login.module.scss'
 
 type Props = {}
 
 export default function Register({ }: Props) {
+  const dispatch = useAppDispatch()
+
+  const initialValues: RegisterJiraModel = {
+    email: '',
+    passWord: '',
+    name: '',
+    phoneNumber: ''
+  }
+
+  const registerFrm = useFormik({
+    initialValues: initialValues,
+    onSubmit: (values) => {
+      console.log(values)
+      const action = register(values)
+      dispatch(action);
+    }
+  })
+
   return (
-    <form className={styles.login}>
+    <form className={styles.login} onSubmit={registerFrm.handleSubmit}>
       <h3>Login</h3>
+
+      <div className='col-3 pt-3 w-100'>
+        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size '
+          name='email' id='email'
+          onInput={registerFrm.handleChange} prefix={<MailOutlined />} />
+      </div>
       <div className='col-3 pt-5 w-100'>
-        <Input size='large' placeholder='large size' prefix={<UserOutlined />}  />
+
+        <Input size='large' placeholder='large size' prefix={<UserOutlined />}
+          name='name' id='name'
+          onInput={registerFrm.handleChange} />
         {/* <input className='form-control' placeholder='Email' id='email' onInput={loginFrm.handleChange} /> */}
       </div>
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<MailOutlined />} />
+        <Input size='large' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<PhoneOutlined />}
+          name='phoneNumber' id='phoneNumber'
+          onInput={registerFrm.handleChange} />
       </div>
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<PhoneOutlined />} />
-      </div>
-      <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<LockOutlined />} />
+        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<LockOutlined />}
+          name='passWord' id='passWord'
+          onInput={registerFrm.handleChange} />
       </div>
 
       <div className={clsx('mt-3', styles.btnLogin)}>
