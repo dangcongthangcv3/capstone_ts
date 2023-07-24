@@ -33,13 +33,13 @@ export default function Register({ }: Props) {
       <h3>Login</h3>
 
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size '
+        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='email '
           name='email' id='email'
           onInput={registerFrm.handleChange} prefix={<MailOutlined />} />
       </div>
       <div className='col-3 pt-5 w-100'>
 
-        <Input size='large' placeholder='large size' prefix={<UserOutlined />}
+        <Input size='large' placeholder='password' prefix={<UserOutlined />}
           name='name' id='name'
 
           onInput={registerFrm.handleChange} />
