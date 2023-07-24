@@ -37,12 +37,12 @@ export default function LogIn({ }: Props) {
     <form className={styles.login} onSubmit={loginFrm.handleSubmit}>
       <h3>Login</h3>
       <div className='col-3 pt-5 w-100'>
-        <Input size='large' placeholder='large size' prefix={<UserOutlined />}
+        <Input size='large' placeholder='email' prefix={<UserOutlined />}
           name='email' id='email'
           onInput={loginFrm.handleChange} />
       </div>
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<LockOutlined />}
+        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='password ' prefix={<LockOutlined />}
           name='password' id='password'
           onInput={loginFrm.handleChange}
         />

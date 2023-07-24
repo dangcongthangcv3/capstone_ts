@@ -39,19 +39,19 @@ export default function Register({ }: Props) {
       </div>
       <div className='col-3 pt-5 w-100'>
 
-        <Input size='large' placeholder='password' prefix={<UserOutlined />}
+        <Input size='large' placeholder='name' prefix={<UserOutlined />}
           name='name' id='name'
 
           onInput={registerFrm.handleChange} />
         {/* <input className='form-control' placeholder='Email' id='email' onInput={loginFrm.handleChange} /> */}
       </div>
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<PhoneOutlined />}
+        <Input size='large' style={{ minWidth: 300, width: '100%' }} placeholder='phone ' prefix={<PhoneOutlined />}
           name='phoneNumber' id='phoneNumber'
           onInput={registerFrm.handleChange} />
       </div>
       <div className='col-3 pt-3 w-100'>
-        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='large size ' prefix={<LockOutlined />}
+        <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='password ' prefix={<LockOutlined />}
           name='passWord' id='passWord'
           onInput={registerFrm.handleChange} />
       </div>
