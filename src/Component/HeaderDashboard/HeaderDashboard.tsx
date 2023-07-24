@@ -3,16 +3,18 @@ import styles from './HeaderDashboard.module.scss'
 import { clsx } from 'clsx'
 import { NavLink } from 'react-router-dom'
 
+
 type Props = {}
 
 export default function HeaderDashboard({ }: Props) {
+    const logo = '/image/ico.png'
     return (
         <div className={styles.header}>
             <div className={styles.headerTop}>
                 <nav className={styles.nav}>
                     <a className='mr-1 rounded'>
-                        <img src="./image/ico.png" alt="" width={35} height={30} />
-                        <br></br>
+                        <img src={logo} alt="" width={35} height={30} />
+                        <br />
                         JIRA
                     </a>
                     <div className={clsx('dropdown', styles.dropdown)}>
