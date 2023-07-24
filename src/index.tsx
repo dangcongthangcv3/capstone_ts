@@ -27,18 +27,18 @@ root.render(
     <Provider store={store}>
       <HistoryRouter history={history}>
         <Routes>
+
+          <Route path='' element={<UserTemplate />}>
+            <Route index element={<LogIn />}></Route>
+            <Route path='login' element={<LogIn />}></Route>
+            <Route path='register' element={<Register />}></Route>
+          </Route>
           <Route path='admin' element={<HomeTemplate />}>
             <Route index element={<Home />}></Route>
-            <Route path='home' element={<Home />}></Route>
             <Route path='project' element={<Project />}></Route>
             <Route path='createproject' element={<CreateProject />}></Route>
             <Route path='userview' element={<UserView />}></Route>
             <Route path='Profile' element={<Profile />}></Route>
-          </Route>
-          <Route path='' element={<UserTemplate />}>
-            <Route index element={<LogIn />}></Route>
-            <Route path='login' element={<LogIn />}></Route>
-            <Route path='/register' element={<Register />}></Route>
           </Route>
 
 
@@ -46,5 +46,5 @@ root.render(
 
       </HistoryRouter>
     </Provider>
-  </GlobalCss>
+  </GlobalCss >
 );

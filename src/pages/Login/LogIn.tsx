@@ -4,7 +4,7 @@ import { Input } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import styles from './login.module.scss'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useFormik, withFormik } from 'formik'
 import { useAppDispatch } from '../../Redux/ConfigStore'
 import { UserJiraLoginModel, signIn } from '../../Redux/reducers/UsersReducer'
@@ -13,6 +13,7 @@ type Props = {}
 
 export default function LogIn({ }: Props) {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const initialValues: UserJiraLoginModel = {
     email: '',
@@ -20,10 +21,16 @@ export default function LogIn({ }: Props) {
   }
   const loginFrm = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      console.log(values)
-      const action = signIn(values)
-      dispatch(action);
+    onSubmit: async (values) => {
+      try {
+        console.log(values)
+        const action = signIn(values)
+        await dispatch(action).unwrap();
+        navigate('/admin/createproject')
+      } catch (err) {
+        console.log(err)
+      }
+
     }
   })
   return (

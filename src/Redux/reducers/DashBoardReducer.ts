@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { http } from '../../Util/Config';
 export interface ProjectModel {
   members: Member[];
   creator: Creator;
@@ -13,6 +13,7 @@ export interface ProjectModel {
 }
 
 export enum CategoryName {
+  DựÁnDiĐộng = "Dự án di động",
   DựÁnPhầnMềm = "Dự án phần mềm",
   DựÁnWeb = "Dự án web",
 }
@@ -31,16 +32,43 @@ export interface Member {
 export interface ProductState {
   arrProject: ProjectModel[]
 }
-const initialState = {
+const initialState: ProductState = {
   arrProject: []
 }
 
 const DashBoardReducer = createSlice({
   name: 'DashBoardReducer',
   initialState,
-  reducers: {}
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // signIn
+      .addCase(getAllProject.fulfilled, (state, { payload }) => {
+        state.arrProject = payload;
+      })
+  },
 });
 
 export const { } = DashBoardReducer.actions
 
 export default DashBoardReducer.reducer
+
+/////////$RECYCLE.BIN
+
+export const getAllProject = createAsyncThunk(
+  'dashboard/getAllProjectApi',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async () => {
+    try {
+      let url = '/api/Project/getAllProject';
+      const response = await http.get(url);
+      console.log(response)
+      return response?.data?.content;
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
