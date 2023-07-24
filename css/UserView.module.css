@@ -1,0 +1,23 @@
+.userView .search {
+  width: 20%;
+  margin: 30px 0;
+}
+.userView .table thead th {
+  color: #2a2424;
+  font-size: 16px;
+  font-weight: 500;
+}
+.userView .table .btnImg {
+  border-radius: 50%;
+  background-color: #ddd;
+  color: black;
+  text-transform: uppercase;
+  width: 35px;
+  height: 35px;
+  border: none;
+}
+.userView .table .tbdropdown {
+  border: none;
+  background: no-repeat;
+  margin-right: 10px;
+}

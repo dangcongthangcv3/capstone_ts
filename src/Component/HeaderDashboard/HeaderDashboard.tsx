@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './HeaderDashboard.module.scss'
 import { clsx } from 'clsx'
+import { NavLink } from 'react-router-dom'
 
 type Props = {}
 
@@ -19,8 +20,8 @@ export default function HeaderDashboard({ }: Props) {
                             Projects
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
-                            <li><a className="dropdown-item" href="#">View all projects</a></li>
-                            <li><a className="dropdown-item" href="#">Create project action</a></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/project'}>View all projects</NavLink></li>
+                            <li><NavLink className={styles.dropdownItem}to={'/createproject'}>Create project action</NavLink></li>
                         </ul>
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>
@@ -28,7 +29,7 @@ export default function HeaderDashboard({ }: Props) {
                             Users
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
-                            <li><a className="dropdown-item" href="#">View all users</a></li>
+                            <li><NavLink className={styles.dropdownItem}to={'/userView'}>View all users</NavLink></li>
                         </ul>
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>
@@ -45,9 +46,9 @@ export default function HeaderDashboard({ }: Props) {
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
                             <li><span>ATLASSIAN ADMIN </span></li>
-                            <li><a className="dropdown-item" href="#">View all projects</a></li>
+                            <li><NavLink className={styles.dropdownItem} to={''}>View all projects</NavLink></li>
                             <li><span>JIRA SETTINGS</span></li>
-                            <li><a className="dropdown-item" href="#">Create project action</a></li>
+                            <li><NavLink className={styles.dropdownItem}to={''}>Create project action</NavLink></li>
                         </ul>
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>
@@ -55,10 +56,10 @@ export default function HeaderDashboard({ }: Props) {
                             <img src='https://i.pravatar.cc/300' width={30} style={{borderRadius:'50%'}}/>
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
-                            <li><a className="dropdown-item" href="#">NAME</a></li>
-                            <li><a className="dropdown-item" href="#">Profile</a></li>
+                            <li><a className={styles.dropdownItem}href="#">NAME</a></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/profile'}>Profile</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
-                            <li><a className="dropdown-item" href="#">Log <output></output></a></li>
+                            <li><a className={styles.dropdownItem}href="#">Log <output></output></a></li>
                         </ul>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ export default function HomeTemplate({ }: Props) {
     return (
         <div>
             <HeaderDashboard />
-            <main className='pt-5'>
+            <main  style={{paddingTop:'80px'}} className='container'>
                 <Outlet></Outlet>
             </main>
             <footer></footer>

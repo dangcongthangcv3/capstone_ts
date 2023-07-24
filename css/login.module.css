@@ -10,9 +10,6 @@
   line-height: 1.2;
   text-align: center;
 }
-.login .forgotpwd {
-  text-align: right;
-}
 .login .btnLogin {
   width: 100%;
   padding: 7px 10px;
@@ -22,5 +19,22 @@
   padding: 8px 15px;
   border: 1px solid #0d6efd;
   border-radius: 50%;
-  margin-left: 20px;
+}
+.login .mediaButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login .mediaButtons .link {
+  background-color: #4070f4;
+  text-decoration: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  margin: 0 8px;
+  height: 34px;
+  width: 34px;
 }
