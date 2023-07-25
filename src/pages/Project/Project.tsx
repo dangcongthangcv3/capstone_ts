@@ -64,8 +64,6 @@ export default function Project({ }: Props) {
                 <Avatar.Group maxCount={2} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
                   {item.members.map((memberitem, index) => {
                     return (
-
-                      // <Avatar style={{ backgroundColor: '#f56a00' }}>{memberitem.avatar}</Avatar>
                       <Avatar src={memberitem.avatar} />
                     )
                   })}
