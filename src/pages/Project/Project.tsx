@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { Input } from 'antd'
+import { Avatar, Input, Tooltip } from 'antd'
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd'
-import { SearchOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { SearchOutlined, EllipsisOutlined, AntDesignOutlined, UserOutlined } from '@ant-design/icons'
 import styles from './Project.module.scss'
 import clsx from 'clsx'
 import { NavLink } from 'react-router-dom'
@@ -60,9 +60,16 @@ export default function Project({ }: Props) {
               <td>{item.categoryName}</td>
               <td>{item.creator.name}</td>
               <td>
-                {item.members.map((memberitem, index) => {
-                  return <button className={styles.btnImg}>{memberitem.name}</button>
-                })}
+
+                <Avatar.Group maxCount={2} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+                  {item.members.map((memberitem, index) => {
+                    return (
+
+                      // <Avatar style={{ backgroundColor: '#f56a00' }}>{memberitem.avatar}</Avatar>
+                      <Avatar src={memberitem.avatar} />
+                    )
+                  })}
+                  </Avatar.Group>
               </td>
               <td>
                 <Dropdown className={styles.tbdropdown} menu={{ items, onClick: onMenuClick }}><EllipsisOutlined /></Dropdown>
@@ -72,6 +79,6 @@ export default function Project({ }: Props) {
 
         </tbody>
       </table>
-    </div>
+    </div >
   )
 }
