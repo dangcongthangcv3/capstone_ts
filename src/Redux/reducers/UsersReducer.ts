@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { http } from '../../Util/Config';
+import { TOKEN, TOKEN_CYBERSOFT, USER_LOGIN, getStoreJson, http, setStore, setStoreJson } from '../../Util/Config';
 
 export interface UserModel {
   email: string;
@@ -34,6 +34,7 @@ export interface UserState {
   arrUser: UserLoginModel | undefined;
 }
 const initialState: UserState = {
+  // arrUser: getStoreJson(USER_LOGIN),
   arrUser: {
     id: -1,
     email: '',
@@ -41,13 +42,22 @@ const initialState: UserState = {
     phoneNumber: '',
     name: '',
     accessToken: '',
-  }
+  },
 }
 
 const UsersReducer = createSlice({
   name: 'UsersReducer',
   initialState,
-  reducers: {},
+  reducers: {logoutUser: (state) => {
+    state.arrUser = {
+      id: -1,
+      email: '',
+      avatar: '',
+      phoneNumber: '',
+      name: '',
+      accessToken: '',
+    }
+  },},
   extraReducers: (builder) => {
     builder
       // signIn
@@ -61,7 +71,7 @@ const UsersReducer = createSlice({
   },
 });
 
-export const { } = UsersReducer.actions
+export const { logoutUser } = UsersReducer.actions
 
 export default UsersReducer.reducer
 
@@ -76,7 +86,9 @@ export const signIn = createAsyncThunk(
     try {
       let url = '/api/Users/signin';
       const response = await http.post(url, signInFormValues);
-      console.log(response)
+      console.log('respn', response)
+      setStoreJson(USER_LOGIN, response.data.content)
+      setStore(TOKEN, TOKEN_CYBERSOFT)
       return response?.data?.content as UserLoginModel;
     } catch (err) {
       console.error(err);

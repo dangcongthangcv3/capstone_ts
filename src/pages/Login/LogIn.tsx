@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { Input } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -8,10 +8,15 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useFormik, withFormik } from 'formik'
 import { useAppDispatch } from '../../Redux/ConfigStore'
 import { UserJiraLoginModel, signIn } from '../../Redux/reducers/UsersReducer'
+import { TOKEN, setStore } from '../../Util/Config'
 type Props = {}
 
 
 export default function LogIn({ }: Props) {
+  
+  useEffect(() => {
+    window.localStorage.clear()
+});
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -19,11 +24,10 @@ export default function LogIn({ }: Props) {
     email: '',
     password: ''
   }
-  const loginFrm = useFormik({
+  const loginFrm = useFormik<UserJiraLoginModel>({
     initialValues: initialValues,
     onSubmit: async (values) => {
       try {
-        console.log(values)
         const action = signIn(values)
         await dispatch(action).unwrap();
         navigate('/admin/project')

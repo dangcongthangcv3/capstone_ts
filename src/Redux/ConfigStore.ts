@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 export const store = configureStore({
   reducer: {
     UsersReducer: UsersReducer,
-    DashBoardReducer: DashBoardReducer
+    DashBoardReducer: DashBoardReducer,
   },
 })
 

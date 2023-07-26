@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { http } from '../../Util/Config';
+import { error } from 'console';
 export interface ProjectModel {
   members: Member[];
   creator: Creator;
@@ -46,7 +47,12 @@ const initialState: ProductState = {
 const DashBoardReducer = createSlice({
   name: 'DashBoardReducer',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutProject: (state) => {
+      state.arrProject = [];
+      state.CategoryName = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       // signIn
@@ -56,16 +62,16 @@ const DashBoardReducer = createSlice({
       .addCase(getCategory.fulfilled, (state, { payload }) => {
         state.CategoryName = payload;
       })
-      .addCase(deleteProject.fulfilled, (state, { payload }) => {
-        const index = state.arrProject.findIndex((project) => project.id === payload);
-        if (index !== -1) {
-          state.arrProject.splice(index, 1);
-        }
-      })
+      // .addCase(deleteProject.fulfilled, (state, { payload }) => {
+      //   const index = state.arrProject.findIndex((project) => project.id === payload);
+      //   if (index !== -1) {
+      //     state.arrProject.splice(index, 1);
+      //   }
+      // })
   },
 });
 
-export const { } = DashBoardReducer.actions
+export const { logoutProject  } = DashBoardReducer.actions
 
 export default DashBoardReducer.reducer
 
@@ -88,6 +94,7 @@ export const getAllProject = createAsyncThunk(
   }
 );
 
+
 export const getCategory = createAsyncThunk(
   'dashboard/getCategoryApi',
   // function tinhtong(a:number,b:number){
@@ -97,7 +104,7 @@ export const getCategory = createAsyncThunk(
     try {
       let url = '/api/ProjectCategory';
       const response = await http.get(url);
-      console.log(response?.data?.content)
+      // console.log(response?.data?.content)
       return response?.data?.content;
 
     } catch (err) {
@@ -110,12 +117,14 @@ export const deleteProject = createAsyncThunk(
   'dashboard/deleteProjectAPI',
   async (projectId: number) => {
     try {
-      let url = '/api/Project/deleteProject?projectId=${projectId}';
-      const response = await http.post(url, url);
-      console.log(response)
+      let url = `/api/Project/deleteProject?projectId=${projectId}`;
+      const response = await http.delete(url);
+      // console.log(response?.data?.content)
       return response?.data?.content;
+      
     } catch (err) {
-      console.error(err);
+      console.log(err)
     }
+
   }
 );

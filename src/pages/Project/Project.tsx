@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Avatar, Button, Input, Menu, Space, Table, Tooltip } from 'antd';
-import { Dropdown } from 'antd';
+import { Avatar, Button, Dropdown, Input, Menu, Space, Table, Tooltip } from 'antd';
 import { SearchOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from './Project.module.scss';
 import { useSelector } from 'react-redux';
@@ -39,7 +38,9 @@ export default function Project({ }: Props) {
     // Xóa
     const handleDelete = async (projectId: number) => {
       if(window.confirm('Bạn có chắc là xóa không'))
+      // console.log(projectId)
       dispatch(deleteProject(projectId));
+      dispatch(getAllProject())
     };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function Project({ }: Props) {
     {
       title: 'Project name',
       dataIndex: 'productName',
-      defaultSortOrder: 'descend',
+      // defaultSortOrder: 'descend',
       sorter: (a: DataType, b: DataType) => a.productName.localeCompare(b.productName),
     },
     {
@@ -85,7 +86,7 @@ export default function Project({ }: Props) {
       dataIndex: 'action',
       render: (_: any, record: DataType) => (
         <Dropdown
-          overlay={
+          overlay={ // Đảm bảo menu nhận giá trị là một đối tượng Menu, không phải là một React Element
             <Menu>
               <Menu.Item key="edit">
                 <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>

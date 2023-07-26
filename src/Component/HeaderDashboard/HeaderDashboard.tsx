@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './HeaderDashboard.module.scss'
 import { clsx } from 'clsx'
 import { NavLink } from 'react-router-dom'
+import { USER_LOGIN, getStoreJson} from '../../Util/Config'
+import { useAppDispatch } from '../../Redux/ConfigStore'
+import { logoutUser } from '../../Redux/reducers/UsersReducer'
+import { logoutProject } from '../../Redux/reducers/DashBoardReducer'
 
 
 type Props = {}
 
 export default function HeaderDashboard({ }: Props) {
     const logo = '/image/ico.png'
+    const dispatch = useAppDispatch()
+    const arrGetUser = getStoreJson(USER_LOGIN);
+    const handleLogout = () => {
+        // Clear local storage
+        window.localStorage.clear();
+        // Dispatch the logout action to reset the Redux state
+        dispatch(logoutUser());
+        dispatch(logoutProject());
+      };
     return (
         <div className={styles.header}>
             <div className={styles.headerTop}>
@@ -44,24 +57,24 @@ export default function HeaderDashboard({ }: Props) {
 
                     <div className={clsx('dropdown', styles.dropdown)}>
                         <button className={clsx('btn btn-link', styles.btnNav)} type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i className="fa fa-cog"></i>   
+                            <i className="fa fa-cog"></i>
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
                             <li><span>ATLASSIAN ADMIN </span></li>
                             <li><NavLink className={styles.dropdownItem} to={''}>View all projects</NavLink></li>
                             <li><span>JIRA SETTINGS</span></li>
-                            <li><NavLink className={styles.dropdownItem}to={''}>Create project action</NavLink></li>
+                            <li><NavLink className={styles.dropdownItem} to={''}>Create project action</NavLink></li>
                         </ul>
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>
-                        <button className={clsx('btn btn-link', styles.btnNav)} style={{borderRadius:'50%'}} type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src='https://i.pravatar.cc/300' width={30} style={{borderRadius:'50%'}}/>
+                        <button className={clsx('btn btn-link', styles.btnNav)} style={{ borderRadius: '50%' }} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src={arrGetUser?.avatar} width={30} style={{ borderRadius: '50%' }} />
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
-                            <li><a className={styles.dropdownItem}href="#">NAME</a></li>
-                            <li><NavLink className={styles.dropdownItem}  to={'/admin/profile'}>Profile</NavLink></li>
+                            <li><span className={clsx(styles.dropdownItem, styles.other)} >{arrGetUser?.name}</span></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/admin/profile'}>Profile</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
-                            <li><a className={styles.dropdownItem}href="#">Log <output></output></a></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/login'} onClick={ handleLogout}>Log out</NavLink></li>
                         </ul>
                     </div>
                 </div>

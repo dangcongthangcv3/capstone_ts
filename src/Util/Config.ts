@@ -22,9 +22,8 @@ export const { getStoreJson, setStoreJson, getStore, setStore } = {
     },
     setStore: (name: string, data: string): void => {
         localStorage.setItem(name, data)
-    }
+    },
 }
-
 export const http = axios.create({
     baseURL: DOMAIN,
     timeout: 30000
@@ -47,7 +46,7 @@ httpNonAuth.interceptors.request.use((config: any) => {
 http.interceptors.request.use((config: any) => {
     config.headers = { ...config.headers }
     let token = getStoreJson(USER_LOGIN)?.accessToken;
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer  ${token}`;
     config.headers.tokenCybersoft = `TOKEN_CYBERSOFT`;
     return config
 }, err => {
@@ -64,7 +63,7 @@ http.interceptors.response.use((res) => {
     console.log(err);
     if (err.response?.status === 401) {
         alert('Đăng nhập để vào trang này !');
-        history.push('/login');
+        // history.push('/login');
     }
     return Promise.reject(err);
 });
