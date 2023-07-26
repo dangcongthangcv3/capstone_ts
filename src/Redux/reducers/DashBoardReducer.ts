@@ -29,11 +29,18 @@ export interface Member {
   avatar: string;
 }
 
+
+export interface categoryModel{
+  id:string,
+  projectCategoryName: string
+}
 export interface ProductState {
-  arrProject: ProjectModel[]
+  arrProject: ProjectModel[],
+  CategoryName:categoryModel[]
 }
 const initialState: ProductState = {
-  arrProject: []
+  arrProject: [],
+  CategoryName:[]
 }
 
 const DashBoardReducer = createSlice({
@@ -45,6 +52,9 @@ const DashBoardReducer = createSlice({
       // signIn
       .addCase(getAllProject.fulfilled, (state, { payload }) => {
         state.arrProject = payload;
+      })
+      .addCase(getCategory.fulfilled, (state, { payload }) => {
+        state.CategoryName = payload;
       })
   },
 });
@@ -64,7 +74,6 @@ export const getAllProject = createAsyncThunk(
     try {
       let url = '/api/Project/getAllProject';
       const response = await http.get(url);
-      console.log(response)
       return response?.data?.content;
 
     } catch (err) {
@@ -72,3 +81,38 @@ export const getAllProject = createAsyncThunk(
     }
   }
 );
+
+export const getCategory = createAsyncThunk(
+  'dashboard/getCategoryApi',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async () => {
+    try {
+      let url = '/api/ProjectCategory';
+      const response = await http.get(url);
+      console.log(response?.data?.content)
+      return response?.data?.content;
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+// export const deleteProject = createAsyncThunk(
+//   'users/deleteProjectAPI',
+//   // function tinhtong(a:number,b:number){
+//   //   return a+b
+//   // }
+//   async (signInFormValues: UserJiraLoginModel) => {
+//     try {
+//       let url = '/api/Project/deleteProject';
+//       const response = await http.post(url, signInFormValues);
+//       console.log(response)
+//       return response?.data?.content as UserLoginModel;
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// );
