@@ -5,7 +5,7 @@ import { SearchOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from '
 import styles from './Project.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../Redux/ConfigStore';
-import { ProjectModel, getAllProject } from '../../Redux/reducers/DashBoardReducer';
+import { ProjectModel, deleteProject, getAllProject } from '../../Redux/reducers/DashBoardReducer';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import Search from 'antd/es/input/Search';
 
@@ -30,10 +30,17 @@ export default function Project({ }: Props) {
   const dispatch = useAppDispatch();
   const { arrProject } = useSelector((state: RootState) => state.DashBoardReducer) as { arrProject: ProjectModel[] };
 
+  // Get all Project
   const getDataProductList = async () => {
     const actionApi = getAllProject();
     dispatch(actionApi);
   };
+
+    // Xóa
+    const handleDelete = async (projectId: number) => {
+      if(window.confirm('Bạn có chắc là xóa không'))
+      dispatch(deleteProject(projectId));
+    };
 
   useEffect(() => {
     getDataProductList();
@@ -120,11 +127,7 @@ export default function Project({ }: Props) {
     console.log('Sửa dự án với id:', record.id);
   };
 
-  // Hàm xử lý khi click nút "Xóa"
-  const handleDelete = (projectId: React.Key) => {
-    // Thực hiện logic khi click nút "Xóa" ở đây
-    console.log('Xóa dự án với id:', projectId);
-  };
+
 
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);

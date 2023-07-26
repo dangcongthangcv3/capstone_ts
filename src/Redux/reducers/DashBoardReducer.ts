@@ -56,6 +56,12 @@ const DashBoardReducer = createSlice({
       .addCase(getCategory.fulfilled, (state, { payload }) => {
         state.CategoryName = payload;
       })
+      .addCase(deleteProject.fulfilled, (state, { payload }) => {
+        const index = state.arrProject.findIndex((project) => project.id === payload);
+        if (index !== -1) {
+          state.arrProject.splice(index, 1);
+        }
+      })
   },
 });
 
@@ -100,19 +106,16 @@ export const getCategory = createAsyncThunk(
   }
 );
 
-// export const deleteProject = createAsyncThunk(
-//   'users/deleteProjectAPI',
-//   // function tinhtong(a:number,b:number){
-//   //   return a+b
-//   // }
-//   async (signInFormValues: UserJiraLoginModel) => {
-//     try {
-//       let url = '/api/Project/deleteProject';
-//       const response = await http.post(url, signInFormValues);
-//       console.log(response)
-//       return response?.data?.content as UserLoginModel;
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   }
-// );
+export const deleteProject = createAsyncThunk(
+  'dashboard/deleteProjectAPI',
+  async (projectId: number) => {
+    try {
+      let url = '/api/Project/deleteProject?projectId=${projectId}';
+      const response = await http.post(url, url);
+      console.log(response)
+      return response?.data?.content;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
