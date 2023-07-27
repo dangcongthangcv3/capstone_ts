@@ -1,5 +1,5 @@
 import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
-import { Input } from 'antd'
+import { Input, notification } from 'antd'
 import * as yup from 'yup'
 import clsx from 'clsx'
 import { useFormik } from 'formik'
@@ -24,16 +24,19 @@ export default function Register({ }: Props) {
     initialValues: initialValues,
     validationSchema: yup.object().shape({
       email: yup.string().required('email cannot be blank!').email('Email is invalid !'),
-      password: yup.string().required('password cannot be blank!').min(6, '6 - 32 characters').max(32, '6 - 32 characters'),
+      passWord: yup.string().required('password cannot be blank!').min(6, '6 - 32 characters').max(32, '6 - 32 characters'),
       name: yup.string().required('name cannot be blank'),
       phoneNumber: yup.string().required('phone cannot be blank').matches(/\d$/, 'phone is numbers')
     }),
     onSubmit: (values) => {
       console.log(values)
       const action = register(values)
+      
       dispatch(action);
     }
   })
+
+
 
   return (
     <form className={styles.login} onSubmit={registerFrm.handleSubmit}>
@@ -67,7 +70,7 @@ export default function Register({ }: Props) {
       </div>
 
       <div className={clsx('mt-3', styles.btnLogin)}>
-        <button className={clsx('btn', 'btn-primary', styles.btnLogin)}>Register</button>
+        <button className={clsx('btn', 'btn-primary', styles.btnLogin)} type='submit'>Register</button>
       </div>
       <div className={clsx('mt-3', 'text-center')}>
         Already have an account?

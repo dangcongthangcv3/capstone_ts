@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './HeaderDashboard.module.scss'
 import { clsx } from 'clsx'
 import { NavLink } from 'react-router-dom'

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Dropdown, Input, Menu, Space, Table, Tooltip } from 'antd';
 import { SearchOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from './Project.module.scss';
@@ -21,7 +21,7 @@ interface DataType {
   categoryName: string;
   alias: string;
   deleted: boolean;
-  
+
 
 }
 
@@ -29,19 +29,23 @@ export default function Project({ }: Props) {
   const dispatch = useAppDispatch();
   const { arrProject } = useSelector((state: RootState) => state.DashBoardReducer) as { arrProject: ProjectModel[] };
 
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+
   // Get all Project
   const getDataProductList = async () => {
     const actionApi = getAllProject();
     dispatch(actionApi);
   };
 
-    // Xóa
-    const handleDelete = async (projectId: number) => {
-      if(window.confirm('Bạn có chắc là xóa không'))
-      // console.log(projectId)
-      dispatch(deleteProject(projectId));
-      dispatch(getAllProject())
-    };
+  // Xóa
+  const handleDelete = async (projectId: number) => {
+    const actionDelete = deleteProject(projectId)
+    // console.log(projectId)
+    await dispatch(actionDelete).unwrap();
+    if (!!actionDelete) {
+      getDataProductList()
+    }
+  };
 
   useEffect(() => {
     getDataProductList();
@@ -54,12 +58,13 @@ export default function Project({ }: Props) {
       render: (text: string, record: DataType) => <span>{text}</span>,
 
       sorter: (a: DataType, b: DataType) => a.id - b.id,
-      sortDirections: ['descend', 'ascend'],
+      // sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Project name',
       dataIndex: 'productName',
       // defaultSortOrder: 'descend',
+
       sorter: (a: DataType, b: DataType) => a.productName.localeCompare(b.productName),
     },
     {
@@ -122,6 +127,13 @@ export default function Project({ }: Props) {
     deleted: project.deleted,
   }));
 
+  const filteredData: DataType[] = data.filter(
+    (item) =>
+      item.productName.toLowerCase().includes(searchKeyword.toLowerCase())
+    // Bạn có thể thêm các trường khác vào đây nếu cần tìm kiếm trên nhiều trường hơn
+  );
+
+
   // Hàm xử lý khi click nút "Sửa"
   const handleEdit = (record: DataType) => {
     // Thực hiện logic khi click nút "Sửa" ở đây
@@ -134,7 +146,9 @@ export default function Project({ }: Props) {
     console.log('params', pagination, filters, sorter, extra);
   };
 
-  const onSearch = (value: string): void => console.log(value);
+  const onInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchKeyword(e.target.value);
+  };
 
   return (
     <div className={styles.project}>
@@ -143,10 +157,10 @@ export default function Project({ }: Props) {
         <Button>Create Project</Button>
       </div>
       <div className={styles.search}>
-        <Search className='mt-3' enterButton={<SearchOutlined />} onSearch={onSearch} />
+        <Search className='mt-3' enterButton={<SearchOutlined />} onInput={onInput} />
       </div>
 
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table columns={columns} dataSource={filteredData} onChange={onChange} />
     </div>
   );
 }

@@ -119,7 +119,6 @@ export const deleteProject = createAsyncThunk(
     try {
       let url = `/api/Project/deleteProject?projectId=${projectId}`;
       const response = await http.delete(url);
-      // console.log(response?.data?.content)
       return response?.data?.content;
       
     } catch (err) {

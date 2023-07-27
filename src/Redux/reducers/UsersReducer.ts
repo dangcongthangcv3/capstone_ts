@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { TOKEN, TOKEN_CYBERSOFT, USER_LOGIN, getStoreJson, http, setStore, setStoreJson } from '../../Util/Config';
+import { notification } from 'antd';
 
 export interface UserModel {
   email: string;
@@ -30,9 +31,23 @@ export interface UserJiraLoginModel {
   password: string
 }
 
+//Thông báo khi đăng ký thành công
+const openNotification = () => {
+  notification.open({
+    type:'success',
+    message: 'Đăng ký thành công',
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};
+
+// Kiểu dử liệu của initialState
 export interface UserState {
   arrUser: UserLoginModel | undefined;
 }
+
+// Dữ liệu mặc định của  reducer
 const initialState: UserState = {
   // arrUser: getStoreJson(USER_LOGIN),
   arrUser: {
@@ -67,6 +82,7 @@ const UsersReducer = createSlice({
       })
       .addCase(register.fulfilled, (state, { payload }) => {
         alert('đăng ký thành công')
+        openNotification()
       })
   },
 });

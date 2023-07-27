@@ -1,62 +1,154 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styles from './UserView.module.scss'
-import { Input } from 'antd'
+import { Avatar, Button, Dropdown, Input, Menu, Table, TableProps } from 'antd'
 import { DeleteOutlined , EditOutlined} from '@ant-design/icons'
 import clsx from 'clsx'
 import { NavLink } from 'react-router-dom'
+import Search from 'antd/es/input/Search'
+import { SearchOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { RootState, useAppDispatch } from '../../Redux/ConfigStore'
+import { ProjectModel } from '../../Redux/reducers/DashBoardReducer'
+import { useSelector } from 'react-redux'
+import { ColumnsType } from 'antd/es/table'
 
 type Props = {}
 
-export default function UserView({}: Props) {
-  return (
-    <div className={styles.userView}>
+interface DataType {
+  key: React.Key;
+  id: number;
+  Members: any[]; // TODO: Replace with the correct type for Members
+  creator: any; // TODO: Replace with the correct type for nameCreator
+  productName: string;
+  description: string;
+  categoryId: number;
+  categoryName: string;
+  alias: string;
+  deleted: boolean;
+  
 
-        <table className={clsx('table',styles.table)}>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Project name</th>
-                    <th>Category name</th>
-                    <th>Creator</th>
-                    <th>Menbers</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>13039</td>
-                <td><NavLink to={''}>test 601</NavLink></td>
-                <td>Dự án web</td>
-                <td>Nghia</td>
-                <td><button className={styles.btnImg}>th</button></td>
-                <td>
-                    <button className={styles.tbdropdown} style={{color:'#1d4ed8'}}><EditOutlined /></button>                
-                    <button className={styles.tbdropdown} style={{color: 'red'}}><DeleteOutlined /></button>                
-                </td>
-              </tr>
-              <tr>
-                <td>13039</td>
-                <td><NavLink to={''}>test 601</NavLink></td>
-                <td>Dự án web</td>
-                <td>Nghia</td>
-                <td><button className={styles.btnImg}>th</button></td>
-                <td>
-                    <button className={styles.tbdropdown} style={{color:'#1d4ed8'}}><EditOutlined /></button>                
-                    <button className={styles.tbdropdown} style={{color: 'red'}}><DeleteOutlined /></button>                
-                </td>
-              </tr><tr>
-                <td>13039</td>
-                <td><NavLink to={''}>test 601</NavLink></td>
-                <td>Dự án web</td>
-                <td>Nghia</td>
-                <td><button className={styles.btnImg}>th</button></td>
-                <td>
-                    <button className={styles.tbdropdown} style={{color:'#1d4ed8'}}><EditOutlined /></button>                
-                    <button className={styles.tbdropdown} style={{color: 'red'}}><DeleteOutlined /></button>                
-                </td>
-              </tr> 
-            </tbody>
-        </table>
+}
+
+export default function UserView({}: Props) {
+
+  const dispatch = useAppDispatch();
+  const { arrProject } = useSelector((state: RootState) => state.DashBoardReducer) as { arrProject: ProjectModel[] };
+
+  // Get all Project
+  const getDataProductList = async () => {
+    
+  };
+
+    // Xóa
+    const handleDelete = async (projectId: number) => {
+      if(window.confirm('Bạn có chắc là xóa không')){
+      console.log(projectId)}
+      // dispatch(deleteProject(projectId));
+    };
+
+  useEffect(() => {
+    getDataProductList();
+  }, []);
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      render: (text: string, record: DataType) => <span>{text}</span>,
+
+      sorter: (a: DataType, b: DataType) => a.id - b.id,
+      sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Project name',
+      dataIndex: 'productName',
+      // defaultSortOrder: 'descend',
+      sorter: (a: DataType, b: DataType) => a.productName.localeCompare(b.productName),
+    },
+    {
+      title: 'Category name',
+      dataIndex: 'categoryName',
+    },
+    {
+      title: 'Creator',
+      dataIndex: 'creatorName',
+    },
+    {
+      title: 'Members',
+      dataIndex: 'Members',
+      render: (members: any[]) => (
+        <Avatar.Group maxCount={2} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+          {members.map((memberitem, index) => (
+            <Avatar key={index} src={memberitem.avatar} />
+          ))}
+        </Avatar.Group>
+      ),
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      render: (_: any, record: DataType) => (
+        <Dropdown
+          overlay={ // Đảm bảo menu nhận giá trị là một đối tượng Menu, không phải là một React Element
+            <Menu>
+              <Menu.Item key="edit">
+                <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+                  Sửa
+                </Button>
+              </Menu.Item>
+              <Menu.Item key="delete">
+                <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>
+                  Xóa
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+          trigger={['click']}
+        >
+          <Button type="link" icon={<EllipsisOutlined />} />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  const data: DataType[] = arrProject.map((project) => ({
+    key: project.id,
+    id: project.id,
+    Members: project.members,
+    creator: project.creator,
+    creatorName: project.creator.name,
+    productName: project.projectName,
+    description: project.description,
+    categoryId: project.categoryId,
+    categoryName: project.categoryName,
+    alias: project.alias,
+    deleted: project.deleted,
+  }));
+
+  // Hàm xử lý khi click nút "Sửa"
+  const handleEdit = (record: DataType) => {
+    // Thực hiện logic khi click nút "Sửa" ở đây
+    console.log('Sửa dự án với id:', record.id);
+  };
+
+
+
+  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
+
+  const onSearch = (value: string): void => console.log(value);
+
+  return (
+    <div className={styles.user}>
+      <div className={styles.creater}>
+        <h3>Project</h3>
+        <Button>Create Project</Button>
+      </div>
+      <div className={styles.search}>
+        <Search className='mt-3' enterButton={<SearchOutlined />} onSearch={onSearch} />
+      </div>
+
+      <Table columns={columns} dataSource={data} onChange={onChange} />
     </div>
-  )
+  );
 }

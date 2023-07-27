@@ -4,19 +4,19 @@ import { Input } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import styles from './login.module.scss'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useFormik, withFormik } from 'formik'
 import { useAppDispatch } from '../../Redux/ConfigStore'
 import { UserJiraLoginModel, signIn } from '../../Redux/reducers/UsersReducer'
-import { TOKEN, setStore } from '../../Util/Config'
+import { TOKEN, getStore, setStore } from '../../Util/Config'
 type Props = {}
 
 
 export default function LogIn({ }: Props) {
-  
+
   useEffect(() => {
     window.localStorage.clear()
-});
+  });
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -30,7 +30,15 @@ export default function LogIn({ }: Props) {
       try {
         const action = signIn(values)
         await dispatch(action).unwrap();
-        navigate('/admin/project')
+
+        
+        const pathLogin = !!getStore(TOKEN)
+
+        if (!pathLogin) {
+          <Navigate to="/login" />
+        } else {
+          navigate('/admin/project')
+        }
       } catch (err) {
         console.log(err)
       }
