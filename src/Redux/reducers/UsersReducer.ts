@@ -146,3 +146,21 @@ export const getUserView = createAsyncThunk(
     }
   }
 );
+
+export const deleteUserView = createAsyncThunk(
+  'dashboard/deleteUserViewApi',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async (id:number) => {
+    try {
+      let url = `api/Users/deleteUser?id=${id}`;
+      const response = await http.delete(url);
+      // console.log(response?.data?.content)
+      return response?.data?.content;
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);

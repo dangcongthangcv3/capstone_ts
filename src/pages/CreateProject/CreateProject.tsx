@@ -36,8 +36,8 @@ export default function CreateProject({ }: Props) {
         initialValues: initialValues,
         onSubmit: (values) => {
             console.log('value',values);
-            // const action = createproject(values);
-            // dispatch(action);
+            const action = createproject(values);
+            dispatch(action);
         }
     });
 

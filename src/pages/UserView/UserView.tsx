@@ -9,7 +9,7 @@ import { SearchOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { RootState, useAppDispatch } from '../../Redux/ConfigStore'
 import { useSelector } from 'react-redux'
 import { ColumnsType } from 'antd/es/table'
-import { getUserView } from '../../Redux/reducers/UsersReducer'
+import { deleteUserView, getUserView } from '../../Redux/reducers/UsersReducer'
 
 type Props = {}
 
@@ -36,11 +36,14 @@ export default function UserView({ }: Props) {
   };
 
   // Xóa
-  const handleDelete = async (userViewId: number) => {
-    if (window.confirm('Bạn có chắc là xóa không')) {
-      // dispatch(deleteuserView(userViewId));
-    };
-  }
+  const handleDelete = async (id: number) => {
+    const actionDelete = deleteUserView(id)
+    console.log(actionDelete)
+    // await dispatch(actionDelete).unwrap();
+    // if (!!actionDelete) {
+    //   getDataUserView()
+    // }
+  };
 
   useEffect(() => {
     getDataUserView();
