@@ -131,7 +131,7 @@ export const deleteProject = createAsyncThunk(
       let url = `/api/Project/deleteProject?projectId=${projectId}`;
       const response = await http.delete(url);
       if(!!response?.data?.content){
-        openNotification('success',"Success",response?.data?.message)
+        openNotification('success','Xóa thành công')
       }
       return response?.data?.content;
       

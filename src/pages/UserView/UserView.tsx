@@ -38,11 +38,11 @@ export default function UserView({ }: Props) {
   // Xóa
   const handleDelete = async (id: number) => {
     const actionDelete = deleteUserView(id)
-    console.log(actionDelete)
-    // await dispatch(actionDelete).unwrap();
-    // if (!!actionDelete) {
-    //   getDataUserView()
-    // }
+    
+    await dispatch(actionDelete).unwrap();
+    if (!!actionDelete) {
+      getDataUserView()
+    }
   };
 
   useEffect(() => {

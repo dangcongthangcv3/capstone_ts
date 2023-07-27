@@ -82,7 +82,7 @@ const UsersReducer = createSlice({
         setStore(TOKEN, state?.arrUser?.accessToken)
       })
       .addCase(register.fulfilled, (state, { payload }) => {
-        openNotification('success','đăng ký','thành công')
+        openNotification('success','đăng ký thành công')
       })
       .addCase(getUserView.fulfilled, (state, { payload }) => {
         state.ArrUserView = payload
@@ -149,14 +149,14 @@ export const getUserView = createAsyncThunk(
 
 export const deleteUserView = createAsyncThunk(
   'dashboard/deleteUserViewApi',
-  // function tinhtong(a:number,b:number){
-  //   return a+b
-  // }
   async (id:number) => {
     try {
       let url = `api/Users/deleteUser?id=${id}`;
       const response = await http.delete(url);
-      // console.log(response?.data?.content)
+      console.log('respnse',response)
+      if(!!response?.data?.content){
+        openNotification('success',"Xóa thành công")
+      }
       return response?.data?.content;
 
     } catch (err) {

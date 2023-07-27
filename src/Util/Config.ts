@@ -64,11 +64,11 @@ http.interceptors.response.use((res) => {
     //Xử lý lỗi cho api bị lỗi theo status code 
     console.log(err);
     if (err.response?.status === 401 ) {
-        openNotification('info','','vui lòng đăng nhập')
+        openNotification('info','vui lòng đăng nhập')
         history.push('/login');
     }
     if ( err.response?.status === 400) {
-        openNotification('info','','Không thành công')
+        openNotification('info','Không thành công')
     }
     return Promise.reject(err);
 });

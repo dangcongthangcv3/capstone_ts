@@ -41,7 +41,6 @@ export default function Project({ }: Props) {
   // Xóa
   const handleDelete = async (projectId: number) => {
     const actionDelete = deleteProject(projectId)
-    // console.log(projectId)
     await dispatch(actionDelete).unwrap();
     if (!!actionDelete) {
       getDataProductList()
