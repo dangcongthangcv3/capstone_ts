@@ -1,7 +1,7 @@
 import axios from "axios"
 import { history } from '../index'
+import { openNotification } from "./notification"
 
-export const TOKEN_CYBERSOFT2 = `eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjaHVoZW5ndW9pbWF5QGdtYWlsLmNvbSIsIm5iZiI6MTY5MDM5ODMzMiwiZXhwIjoxNjkwNDAxOTMyfQ.Z80OxVGYNnS-hnPBA70Q6ihqzm6oPAiIp5Run2pG8VQ`
 export const TOKEN_CYBERSOFT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAwMSIsIkhldEhhblN0cmluZyI6IjMwLzA5LzIwMzEiLCJIZXRIYW5UaW1lIjoiMTk0ODQ5MjgwMDAwMCIsIm5iZiI6MTYwMTIyNjAwMCwiZXhwIjoxOTQ4NjQwNDAwfQ.4l-eTzlgVnFczfvc2Or7BNPOcaesY3Kwc8RoNm-o-6M`
 export const AUTHORIZATION  = 'Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjaHVoZW5ndW9pbWF5QGdtYWlsLmNvbSIsIm5iZiI6MTY5MDM5NDkwNCwiZXhwIjoxNjkwMzk4NTA0fQ.HY9Vu0uCq0v5A07Iq764O9n2PHWnDL2dyl-45ilq4ak'
 export const DOMAIN = 'https://jiranew.cybersoft.edu.vn'
@@ -63,9 +63,12 @@ http.interceptors.response.use((res) => {
 }, (err) => {
     //Xử lý lỗi cho api bị lỗi theo status code 
     console.log(err);
-    if (err.response?.status === 401 || err.response?.status === 400) {
-        alert('Đăng nhập để vào trang này !');
+    if (err.response?.status === 401 ) {
+        openNotification('success','','vui lòng đăng nhập')
         history.push('/login');
+    }
+    if ( err.response?.status === 400) {
+        openNotification('success','','Không thành công')
     }
     return Promise.reject(err);
 });

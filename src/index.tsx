@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GlobalCss from './Component/GlobalCss/GlobalCss';
 import LogIn from './pages/Login/LogIn';
-import { unstable_HistoryRouter as HistoryRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import Register from './pages/Register/Register';
 import { Provider } from 'react-redux';
 import { store } from './Redux/ConfigStore';
@@ -18,6 +18,9 @@ import Profile from './pages/Profile/Profile';
 
 export const history: any = createBrowserHistory();
 
+// const currentURL = window.location.href;
+// console.log('Current URL:', currentURL);
+// if(currentURL =)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -36,7 +36,7 @@ export default function Register({ }: Props) {
     }
   })
 
-
+ 
 
   return (
     <form className={styles.login} onSubmit={registerFrm.handleSubmit}>
@@ -44,8 +44,8 @@ export default function Register({ }: Props) {
 
       <div className='col-3 pt-3 w-100'>
         <Input size='large' style={{ minWidth: 300, width: '100%' }} placeholder='email '
-          name='email' id='email'
           prefix={<MailOutlined />}
+          name='email' id='email'
           onInput={registerFrm.handleChange} onBlur={registerFrm.handleBlur} />
           {registerFrm.errors.email && <p className='alert alert-danger'>{registerFrm.errors.email} </p>}
       </div>

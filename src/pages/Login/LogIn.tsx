@@ -48,6 +48,8 @@ export default function LogIn({ }: Props) {
   return (
     <form className={styles.login} onSubmit={loginFrm.handleSubmit}>
       <h3>Login</h3>
+      <b>nguyenvana1@gmail.com</b> <br />
+      <b>Nguyenvana!1</b>
       <div className='col-3 pt-5 w-100'>
         <Input size='large' placeholder='email' prefix={<UserOutlined />}
           name='email' id='email'

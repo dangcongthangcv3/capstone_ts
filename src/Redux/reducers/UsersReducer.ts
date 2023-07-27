@@ -103,8 +103,6 @@ export const signIn = createAsyncThunk(
       let url = '/api/Users/signin';
       const response = await http.post(url, signInFormValues);
       console.log('respn', response)
-      setStoreJson(USER_LOGIN, response.data.content)
-      setStore(TOKEN, TOKEN_CYBERSOFT)
       return response?.data?.content as UserLoginModel;
     } catch (err) {
       console.error(err);

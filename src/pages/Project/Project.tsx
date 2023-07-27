@@ -7,6 +7,7 @@ import { RootState, useAppDispatch } from '../../Redux/ConfigStore';
 import { ProjectModel, deleteProject, getAllProject } from '../../Redux/reducers/DashBoardReducer';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import Search from 'antd/es/input/Search';
+import { NavLink } from 'react-router-dom';
 
 type Props = {};
 
@@ -154,7 +155,7 @@ export default function Project({ }: Props) {
     <div className={styles.project}>
       <div className={styles.creater}>
         <h3>Project</h3>
-        <Button>Create Project</Button>
+        <NavLink to={'/admin/createproject'} className={styles.navlink}>Create Project</NavLink>
       </div>
       <div className={styles.search}>
         <Search className='mt-3' enterButton={<SearchOutlined />} onInput={onInput} />

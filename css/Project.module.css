@@ -3,6 +3,13 @@
   justify-content: space-between;
   padding: 10px 0;
 }
+.project .creater .navlink {
+  background-color: #1677ff;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+}
 .project .search {
   width: 20%;
   margin: 30px 0;

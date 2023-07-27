@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { http } from '../../Util/Config';
 import { error } from 'console';
+import { openNotification } from '../../Util/notification';
 export interface ProjectModel {
   members: Member[];
   creator: Creator;
@@ -12,6 +13,7 @@ export interface ProjectModel {
   alias: string;
   deleted: boolean;
 }
+
 
 export enum CategoryName {
   DựÁnDiĐộng = "Dự án di động",
@@ -35,13 +37,22 @@ export interface categoryModel{
   id:string,
   projectCategoryName: string
 }
+
+export interface CreateProjectModel {
+  projectName: string,
+  description: string,
+  categoryId: number,
+  alias: string
+}
+
 export interface ProductState {
   arrProject: ProjectModel[],
-  CategoryName:categoryModel[]
+  CategoryName:categoryModel[],
 }
+
 const initialState: ProductState = {
   arrProject: [],
-  CategoryName:[]
+  CategoryName:[],
 }
 
 const DashBoardReducer = createSlice({
@@ -119,11 +130,33 @@ export const deleteProject = createAsyncThunk(
     try {
       let url = `/api/Project/deleteProject?projectId=${projectId}`;
       const response = await http.delete(url);
+      if(!!response?.data?.content){
+        openNotification('success',"Success",response?.data?.message)
+      }
       return response?.data?.content;
       
     } catch (err) {
       console.log(err)
     }
 
+  }
+);
+
+// CreateProject
+
+export const createproject = createAsyncThunk(
+  'users/registerAPI',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async (FormValues: CreateProjectModel) => {
+    try {
+      let url = '/api/Project/createProjectAuthorize';
+      const response = await http.post(url, FormValues);
+      
+      return response?.data?.content;
+    } catch (err) {
+      console.error(err);
+    }
   }
 );
