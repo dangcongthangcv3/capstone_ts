@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import styles from './UserView.module.scss'
 import { Avatar, Button, Dropdown, Input, Menu, Table, TableProps } from 'antd'
-import { DeleteOutlined , EditOutlined} from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 import { NavLink } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
@@ -15,16 +15,16 @@ type Props = {}
 
 interface DataType {
   key: React.Key;
-    userId: number,
-    name: string,
-    avatar:string
-    email: string,
-    phoneNumber: string,
-  
+  userId: number,
+  name: string,
+  avatar: string
+  email: string,
+  phoneNumber: string,
+
 
 }
 
-export default function UserView({}: Props) {
+export default function UserView({ }: Props) {
 
   const dispatch = useAppDispatch();
   const { ArrUserView } = useSelector((state: RootState) => state.UsersReducer);
@@ -35,12 +35,12 @@ export default function UserView({}: Props) {
     dispatch(actionApi);
   };
 
-    // Xóa
-    const handleDelete = async (userViewId: number) => {
-      if(window.confirm('Bạn có chắc là xóa không')){
-      console.log(userViewId)}
+  // Xóa
+  const handleDelete = async (userViewId: number) => {
+    if (window.confirm('Bạn có chắc là xóa không')) {
       // dispatch(deleteuserView(userViewId));
     };
+  }
 
   useEffect(() => {
     getDataUserView();
@@ -101,12 +101,12 @@ export default function UserView({}: Props) {
     },
   ];
 
-  const data: DataType[] = ArrUserView.map((userView,index) => ({
+  const data: DataType[] = ArrUserView.map((userView, index) => ({
     key: userView.userId.toString(),
-    index: index+1,
+    index: index + 1,
     userId: userView.userId,
     name: userView.name,
-    avatar:userView.avatar,
+    avatar: userView.avatar,
     email: userView.email,
     phoneNumber: userView.phoneNumber,
   }));

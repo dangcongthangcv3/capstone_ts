@@ -12,8 +12,8 @@ import HomeTemplate from './Templates/HomeTemplate/HomeTemplate';
 import { createBrowserHistory } from 'history'
 import Project from './pages/Project/Project';
 import CreateProject from './pages/CreateProject/CreateProject';
-import UserView from './pages/UserView/UserView';
 import Profile from './pages/Profile/Profile';
+import UserView from './pages/UserView/UserView';
 
 
 export const history: any = createBrowserHistory();
