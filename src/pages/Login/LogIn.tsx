@@ -32,13 +32,13 @@ export default function LogIn({ }: Props) {
         await dispatch(action).unwrap();
 
         
-        const pathLogin = !!getStore(TOKEN)
+        // const pathLogin = !!getStore(TOKEN)
 
-        if (!pathLogin) {
-          <Navigate to="/login" />
-        } else {
+        // if (!pathLogin) {
+        //   <Navigate to="/login" />
+        // } else {
           navigate('/admin/project')
-        }
+        // }
       } catch (err) {
         console.log(err)
       }

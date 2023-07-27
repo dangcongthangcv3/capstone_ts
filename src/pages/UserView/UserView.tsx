@@ -7,23 +7,19 @@ import { NavLink } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
 import { SearchOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { RootState, useAppDispatch } from '../../Redux/ConfigStore'
-import { ProjectModel } from '../../Redux/reducers/DashBoardReducer'
 import { useSelector } from 'react-redux'
 import { ColumnsType } from 'antd/es/table'
+import { getUserView } from '../../Redux/reducers/UsersReducer'
 
 type Props = {}
 
 interface DataType {
   key: React.Key;
-  id: number;
-  Members: any[]; // TODO: Replace with the correct type for Members
-  creator: any; // TODO: Replace with the correct type for nameCreator
-  productName: string;
-  description: string;
-  categoryId: number;
-  categoryName: string;
-  alias: string;
-  deleted: boolean;
+    userId: number,
+    name: string,
+    avatar:string
+    email: string,
+    phoneNumber: string,
   
 
 }
@@ -31,57 +27,52 @@ interface DataType {
 export default function UserView({}: Props) {
 
   const dispatch = useAppDispatch();
-  const { arrProject } = useSelector((state: RootState) => state.DashBoardReducer) as { arrProject: ProjectModel[] };
+  const { ArrUserView } = useSelector((state: RootState) => state.UsersReducer);
 
-  // Get all Project
-  const getDataProductList = async () => {
-    
+  // Get all userView
+  const getDataUserView = async () => {
+    const actionApi = getUserView()
+    dispatch(actionApi);
   };
 
     // Xóa
-    const handleDelete = async (projectId: number) => {
+    const handleDelete = async (userViewId: number) => {
       if(window.confirm('Bạn có chắc là xóa không')){
-      console.log(projectId)}
-      // dispatch(deleteProject(projectId));
+      console.log(userViewId)}
+      // dispatch(deleteuserView(userViewId));
     };
 
   useEffect(() => {
-    getDataProductList();
+    getDataUserView();
   }, []);
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'Id',
-      dataIndex: 'id',
+      title: 'No.',
+      dataIndex: 'index',
+      render: (_, __, index) => index + 1,
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      // defaultSortOrder: 'descend',
+      sorter: (a: DataType, b: DataType) => a.name.localeCompare(b.name),
+    },
+    {
+      title: 'User ID',
+      dataIndex: 'userId',
       render: (text: string, record: DataType) => <span>{text}</span>,
 
-      sorter: (a: DataType, b: DataType) => a.id - b.id,
+      sorter: (a: DataType, b: DataType) => a.userId - b.userId,
       sortDirections: ['descend', 'ascend'],
     },
     {
-      title: 'Project name',
-      dataIndex: 'productName',
-      // defaultSortOrder: 'descend',
-      sorter: (a: DataType, b: DataType) => a.productName.localeCompare(b.productName),
+      title: 'Email',
+      dataIndex: 'email',
     },
     {
-      title: 'Category name',
-      dataIndex: 'categoryName',
-    },
-    {
-      title: 'Creator',
-      dataIndex: 'creatorName',
-    },
-    {
-      title: 'Members',
-      dataIndex: 'Members',
-      render: (members: any[]) => (
-        <Avatar.Group maxCount={2} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-          {members.map((memberitem, index) => (
-            <Avatar key={index} src={memberitem.avatar} />
-          ))}
-        </Avatar.Group>
-      ),
+      title: 'Phone number',
+      dataIndex: 'phoneNumber',
     },
     {
       title: 'Action',
@@ -96,7 +87,7 @@ export default function UserView({}: Props) {
                 </Button>
               </Menu.Item>
               <Menu.Item key="delete">
-                <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>
+                <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>
                   Xóa
                 </Button>
               </Menu.Item>
@@ -110,24 +101,20 @@ export default function UserView({}: Props) {
     },
   ];
 
-  const data: DataType[] = arrProject.map((project) => ({
-    key: project.id,
-    id: project.id,
-    Members: project.members,
-    creator: project.creator,
-    creatorName: project.creator.name,
-    productName: project.projectName,
-    description: project.description,
-    categoryId: project.categoryId,
-    categoryName: project.categoryName,
-    alias: project.alias,
-    deleted: project.deleted,
+  const data: DataType[] = ArrUserView.map((userView,index) => ({
+    key: userView.userId.toString(),
+    index: index+1,
+    userId: userView.userId,
+    name: userView.name,
+    avatar:userView.avatar,
+    email: userView.email,
+    phoneNumber: userView.phoneNumber,
   }));
 
   // Hàm xử lý khi click nút "Sửa"
   const handleEdit = (record: DataType) => {
     // Thực hiện logic khi click nút "Sửa" ở đây
-    console.log('Sửa dự án với id:', record.id);
+    console.log('Sửa dự án với id:', record.userId);
   };
 
 
@@ -140,13 +127,6 @@ export default function UserView({}: Props) {
 
   return (
     <div className={styles.user}>
-      <div className={styles.creater}>
-        <h3>Project</h3>
-        <Button>Create Project</Button>
-      </div>
-      <div className={styles.search}>
-        <Search className='mt-3' enterButton={<SearchOutlined />} onSearch={onSearch} />
-      </div>
 
       <Table columns={columns} dataSource={data} onChange={onChange} />
     </div>

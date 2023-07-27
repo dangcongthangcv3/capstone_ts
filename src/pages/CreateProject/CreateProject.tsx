@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { Editor } from '@tinymce/tinymce-react';
 import { useSelector } from 'react-redux';
 import { CreateProjectModel, createproject, getCategory } from '../../Redux/reducers/DashBoardReducer';
+import { NavLink } from 'react-router-dom';
 
 type Props = {};
 
@@ -35,8 +36,8 @@ export default function CreateProject({ }: Props) {
         initialValues: initialValues,
         onSubmit: (values) => {
             console.log('value',values);
-            const action = createproject(values);
-            dispatch(action);
+            // const action = createproject(values);
+            // dispatch(action);
         }
     });
 
@@ -44,7 +45,9 @@ export default function CreateProject({ }: Props) {
     const handleEditorChange = (content: string) => {
         createProjectFrm.setFieldValue('description', content);
     };
-
+    const cleartProjectFrm = () =>{
+        
+    }
     return (
         <div className='container'>
             <h3>CreateProject</h3>
@@ -101,7 +104,7 @@ export default function CreateProject({ }: Props) {
                         onEditorChange={handleEditorChange}
                     />
                 </div>
-                <button className='btn btn-danger'>Cancel</button>
+                <NavLink className='btn btn-danger' to={'/admin/project'}>Cancel</NavLink>
                 <button className='btn btn-success' type='submit'>
                     Create
                 </button>

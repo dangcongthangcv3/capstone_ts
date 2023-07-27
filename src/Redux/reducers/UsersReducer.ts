@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { TOKEN, TOKEN_CYBERSOFT, USER_LOGIN, getStoreJson, http, setStore, setStoreJson } from '../../Util/Config';
 import { notification } from 'antd';
+import { openNotification } from '../../Util/notification';
 
 export interface UserModel {
   email: string;
@@ -31,20 +32,18 @@ export interface UserJiraLoginModel {
   password: string
 }
 
-//Thông báo khi đăng ký thành công
-const openNotification = () => {
-  notification.open({
-    type:'success',
-    message: 'Đăng ký thành công',
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};
 
+export interface UserViewModel{
+  userId: number;
+  email: string;
+  avatar: string;
+  phoneNumber: string;
+  name: string;
+};
 // Kiểu dử liệu của initialState
 export interface UserState {
   arrUser: UserLoginModel | undefined;
+  ArrUserView: UserViewModel[]
 }
 
 // Dữ liệu mặc định của  reducer
@@ -58,6 +57,7 @@ const initialState: UserState = {
     name: '',
     accessToken: '',
   },
+  ArrUserView: []
 }
 
 const UsersReducer = createSlice({
@@ -77,12 +77,15 @@ const UsersReducer = createSlice({
     builder
       // signIn
       .addCase(signIn.fulfilled, (state, { payload }) => {
-        console.log(payload)
         state.arrUser = payload;
+        setStoreJson(USER_LOGIN, state.arrUser)
+        setStore(TOKEN, state?.arrUser?.accessToken)
       })
       .addCase(register.fulfilled, (state, { payload }) => {
-        alert('đăng ký thành công')
-        openNotification()
+        openNotification('success','đăng ký','thành công')
+      })
+      .addCase(getUserView.fulfilled, (state, { payload }) => {
+        state.ArrUserView = payload
       })
   },
 });
@@ -121,6 +124,23 @@ export const register = createAsyncThunk(
       const response = await http.post(url, registerFormValues);
       console.log(response)
       return response?.data?.content as UserLoginModel;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getUserView = createAsyncThunk(
+  'dashboard/getUserViewApi',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async () => {
+    try {
+      let url = '/api/Users/getUser';
+      const response = await http.get(url);
+      return response?.data?.content;
+
     } catch (err) {
       console.error(err);
     }

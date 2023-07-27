@@ -22,7 +22,7 @@ export const { getStoreJson, setStoreJson, getStore, setStore } = {
     getStore: (name: string): string | null => {
         return localStorage.getItem(name)
     },
-    setStore: (name: string, data: string): void => {
+    setStore: (name: string, data: string |any): void => {
         localStorage.setItem(name, data)
     },
 }
@@ -64,11 +64,11 @@ http.interceptors.response.use((res) => {
     //Xử lý lỗi cho api bị lỗi theo status code 
     console.log(err);
     if (err.response?.status === 401 ) {
-        openNotification('success','','vui lòng đăng nhập')
+        openNotification('info','','vui lòng đăng nhập')
         history.push('/login');
     }
     if ( err.response?.status === 400) {
-        openNotification('success','','Không thành công')
+        openNotification('info','','Không thành công')
     }
     return Promise.reject(err);
 });
