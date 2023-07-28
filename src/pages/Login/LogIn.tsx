@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { Input } from 'antd'
+import * as yup from 'yup'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import styles from './login.module.scss'
@@ -8,7 +9,7 @@ import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useFormik, withFormik } from 'formik'
 import { useAppDispatch } from '../../Redux/ConfigStore'
 import { UserJiraLoginModel, signIn } from '../../Redux/reducers/UsersReducer'
-import { TOKEN, getStore, setStore } from '../../Util/Config'
+import { TOKEN, USER_LOGIN, getStore, setStore, setStoreJson } from '../../Util/Config'
 type Props = {}
 
 
@@ -26,19 +27,23 @@ export default function LogIn({ }: Props) {
   }
   const loginFrm = useFormik<UserJiraLoginModel>({
     initialValues: initialValues,
+    validationSchema: yup.object().shape({
+      email: yup.string().required('email cannot be blank!').email('Email is invalid !'),
+      password: yup.string().required('password cannot be blank!'),
+    }),
+
     onSubmit: async (values) => {
       try {
         const action = signIn(values)
         await dispatch(action).unwrap();
+        const pathLogin = !!getStore(TOKEN)
 
-        
-        // const pathLogin = !!getStore(TOKEN)
+        if (!pathLogin) {
+        } else {
 
-        // if (!pathLogin) {
-        //   <Navigate to="/login" />
-        // } else {
-          navigate('/admin/project')
-        // }
+          // Chuyển hướng tới trang /admin/project
+          navigate('/admin/project');
+        }
       } catch (err) {
         console.log(err)
       }
@@ -48,18 +53,17 @@ export default function LogIn({ }: Props) {
   return (
     <form className={styles.login} onSubmit={loginFrm.handleSubmit}>
       <h3>Login</h3>
-      <b>nguyenvana1@gmail.com</b> <br />
-      <b>Nguyenvana!1</b>
       <div className='col-3 pt-5 w-100'>
         <Input size='large' placeholder='email' prefix={<UserOutlined />}
           name='email' id='email'
-          onInput={loginFrm.handleChange} />
+          onInput={loginFrm.handleChange} onBlur={loginFrm.handleBlur} />
+        {loginFrm.errors.email && <p className='alert alert-danger'>{loginFrm.errors.email} </p>}
       </div>
       <div className='col-3 pt-3 w-100'>
         <Input size='large' type='password' style={{ minWidth: 300, width: '100%' }} placeholder='password ' prefix={<LockOutlined />}
           name='password' id='password'
-          onInput={loginFrm.handleChange}
-        />
+          onInput={loginFrm.handleChange} onBlur={loginFrm.handleBlur} />
+        {loginFrm.errors.password && <p className='alert alert-danger'>{loginFrm.errors.password} </p>}
       </div>
 
       <div className={clsx('mt-3', styles.btnLogin)}>

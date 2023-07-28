@@ -69,6 +69,7 @@ http.interceptors.response.use((res) => {
     }
     if ( err.response?.status === 400) {
         openNotification('info','Không thành công')
+        history.push('/login');
     }
     return Promise.reject(err);
 });

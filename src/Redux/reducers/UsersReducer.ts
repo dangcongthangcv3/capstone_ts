@@ -14,10 +14,10 @@ export interface UserModel {
 export type UserLoginModel = {
   id: number;
   email: string;
-  avatar: string;
+  avatar?: string;
   phoneNumber: string;
   name: string;
-  accessToken: string;
+  accessToken?: string;
 };
 //register
 export interface RegisterJiraModel {
@@ -45,6 +45,17 @@ export interface UserState {
   arrUser: UserLoginModel | undefined;
   ArrUserView: UserViewModel[]
 }
+
+//UserProfile có mật khẩu xác nhận, id, ..
+export interface UserProfileModel {
+  id: number,
+  email: string;
+  name: string;
+  phoneNumber: string;
+  pass: string;
+  passwordconfirm: string
+}
+
 
 // Dữ liệu mặc định của  reducer
 const initialState: UserState = {
@@ -78,8 +89,8 @@ const UsersReducer = createSlice({
       // signIn
       .addCase(signIn.fulfilled, (state, { payload }) => {
         state.arrUser = payload;
-        setStoreJson(USER_LOGIN, state.arrUser)
-        setStore(TOKEN, state?.arrUser?.accessToken)
+        // setStoreJson(USER_LOGIN, state.arrUser)
+        // setStore(TOKEN, state?.arrUser?.accessToken)
       })
       .addCase(register.fulfilled, (state, { payload }) => {
         openNotification('success','đăng ký thành công')
@@ -87,6 +98,9 @@ const UsersReducer = createSlice({
       .addCase(getUserView.fulfilled, (state, { payload }) => {
         state.ArrUserView = payload
       })
+      // .addCase(getUserMeId.fulfilled, (state, { payload }) => {
+      //   setStoreJson(USER_LOGIN, payload)
+      // })
   },
 });
 
@@ -105,7 +119,10 @@ export const signIn = createAsyncThunk(
     try {
       let url = '/api/Users/signin';
       const response = await http.post(url, signInFormValues);
-      console.log('respn', response)
+      const content = response?.data?.content
+      setStoreJson(USER_LOGIN, content)
+      setStore(TOKEN, content?.accessToken)
+      // return 0
       return response?.data?.content as UserLoginModel;
     } catch (err) {
       console.error(err);
@@ -159,6 +176,45 @@ export const deleteUserView = createAsyncThunk(
       }
       return response?.data?.content;
 
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+// export const getUserMeId = createAsyncThunk(
+//   'dashboard/getUserMeIdApi',
+//   // function tinhtong(a:number,b:number){
+//   //   return a+b
+//   // }
+//   async (id:number) => {
+//     try {
+//       let url = `/api/Users/getUser?keyword=${id}`;
+//       const response = await http.get(url);
+//       console.log('getMe',response?.data?.content)
+//       setStoreJson(USER_LOGIN, response?.data?.content)
+//       // return response?.data?.content;
+//       return 0;
+
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// );
+
+
+export const updateprofile = createAsyncThunk(
+  'users/updateprojectAPI',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async (FormValues: UserProfileModel) => {
+    try {
+      let url = '/api/Users/editUser';
+      const response = await http.put(url, FormValues);
+      openNotification('success','cập nhật thành công')
+      console.log(response?.data?.content)
+      return response?.data?.content;
     } catch (err) {
       console.error(err);
     }

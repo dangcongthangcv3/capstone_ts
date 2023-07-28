@@ -13,6 +13,7 @@ type Props = {}
 export default function HeaderDashboard({ }: Props) {
     const logo = '/image/ico.png'
     const dispatch = useAppDispatch()
+    const userLoginLocal = getStoreJson(USER_LOGIN)
     const arrGetUser = getStoreJson(USER_LOGIN);
     const handleLogout = () => {
         // Clear local storage
@@ -68,10 +69,10 @@ export default function HeaderDashboard({ }: Props) {
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>
                         <button className={clsx('btn btn-link', styles.btnNav)} style={{ borderRadius: '50%' }} type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={arrGetUser?.avatar} width={30} style={{ borderRadius: '50%' }} />
+                            <img src={userLoginLocal?.avatar} width={30} style={{ borderRadius: '50%' }} />
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
-                            <li><span className={clsx(styles.dropdownItem, styles.other)} >{arrGetUser?.name}</span></li>
+                            <li><span className={clsx(styles.dropdownItem, styles.other)} >{userLoginLocal?.name}</span></li>
                             <li><NavLink className={styles.dropdownItem} to={'/admin/profile'}>Profile</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><NavLink className={styles.dropdownItem} to={'/login'} onClick={ handleLogout}>Log out</NavLink></li>

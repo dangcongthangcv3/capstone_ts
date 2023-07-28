@@ -49,7 +49,7 @@ export default function Register({ }: Props) {
           onInput={registerFrm.handleChange} onBlur={registerFrm.handleBlur} />
           {registerFrm.errors.email && <p className='alert alert-danger'>{registerFrm.errors.email} </p>}
       </div>
-      <div className='col-3 pt-5 w-100'>
+      <div className='col-3 pt-3 w-100'>
 
         <Input size='large' placeholder='name' typeof='email' prefix={<UserOutlined />}
           name='name' id='name'

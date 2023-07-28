@@ -1,0 +1,19 @@
+.profile {
+    .left {
+        display: flex;
+        justify-content: center;
+
+        img {
+            border-radius: 50%;
+        }
+    }
+
+    .right {
+        .lable {
+            font-weight: 500;
+            .important {
+                color: red;
+            }
+        }
+    }
+}
