@@ -1,26 +1,49 @@
 import React, { useEffect, useRef } from 'react';
-import { Input } from 'antd';
 import { RootState, useAppDispatch } from '../../Redux/ConfigStore';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Editor } from '@tinymce/tinymce-react';
-import { useSelector } from 'react-redux';
-import { CreateProjectModel, createproject, getCategory } from '../../Redux/reducers/DashBoardReducer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
+import { getCategory } from '../../Redux/reducers/DashBoardReducer';
+import { EditProjectModel, updateproject, getProjectDetail } from '../../Redux/reducers/editProjectReducer';
 
 type Props = {};
 
-export default function CreateProject({ }: Props) {
+export default function EditProject({ }: Props) {
     const dispatch = useAppDispatch();
     const { CategoryName } = useSelector((state: RootState) => state.DashBoardReducer);
+    const { productDetail } = useSelector((state: RootState) => state.editProjectReducer);
+    const { id } = useParams();
+    const projectId = Number(id);
 
-    // nút section
-    const getDataCategory = async () => {
-        const actionApi = getCategory();
-        dispatch(actionApi);
+        //Formik
+            const initialValues: EditProjectModel = {
+                id: 1,
+                projectName: '',
+                creator: 0,
+                description: '',
+                categoryId: -1,
+            };
+        
+    const getDataProjectDetail = () => {
+        const actionGetProjectApi = getProjectDetail(projectId);
+        const actionGetCategoryApi = getCategory();
+        dispatch(actionGetProjectApi);
+        dispatch(actionGetCategoryApi);
+        
+        if (productDetail.id) {
+            editProjectFrm.setValues({
+                ...editProjectFrm.values,
+                id: productDetail.id,
+                projectName: productDetail.projectName,
+                categoryId: productDetail.projectCategory.id,
+                description: productDetail.description,
+            });
+        }
     };
     useEffect(() => {
-        getDataCategory();
-    }, []);
+        getDataProjectDetail()
+    }, [productDetail.id]);
 
     const renderProjectCategory = () => {
         return CategoryName.map((projectCategory, index) => {
@@ -29,37 +52,37 @@ export default function CreateProject({ }: Props) {
     };
 
 
-    const editorRef = useRef<any>(null);
-
-    //Formik
-    const initialValues: CreateProjectModel = {
-        projectName: '',
-        description: '',
-        categoryId: -1,
-        alias: ''
-    };
-
-    const createProjectFrm = useFormik({
+    const editProjectFrm = useFormik({
         initialValues: initialValues,
         onSubmit: (values) => {
             console.log('value', values);
-            const action = createproject(values);
+            const action = updateproject(values);
             dispatch(action);
         }
     });
-
-    // Declare the handleEditorChange function here
     const handleEditorChange = (content: string) => {
-        createProjectFrm.setFieldValue('description', content);
+        editProjectFrm.setFieldValue('description', content);
     };
     const cleartProjectFrm = () => {
 
     }
     return (
         <div className='container'>
-            <h3>Create Project</h3>
+            <h3>Update Project</h3>
 
-            <form onSubmit={createProjectFrm.handleSubmit}>
+            <form onSubmit={editProjectFrm.handleSubmit}>
+                <div className='mt-3'>
+                    <label htmlFor=''>Project name *</label>
+                    <input
+                        type='number'
+                        className='form-control'
+                        disabled
+                        value={projectId}
+                        name='id'
+                        id='id'
+                        onInput={editProjectFrm.handleChange}
+                    />
+                </div>
                 <div className='mt-3'>
                     <label htmlFor=''>Project name *</label>
                     <input
@@ -67,7 +90,8 @@ export default function CreateProject({ }: Props) {
                         className='form-control'
                         name='projectName'
                         id='projectName'
-                        onInput={createProjectFrm.handleChange}
+                        value={editProjectFrm.values.projectName}
+                        onInput={editProjectFrm.handleChange}
                     />
                 </div>
 
@@ -78,8 +102,8 @@ export default function CreateProject({ }: Props) {
                         aria-label='Default select example'
                         name='categoryId'
                         id='categoryId'
-                        onChange={createProjectFrm.handleChange}
-                        value={createProjectFrm.values.categoryId}
+                        onChange={editProjectFrm.handleChange}
+                        value={editProjectFrm.values.categoryId}
                     >
                         <option value={'0'}>Select a project category</option>
                         {renderProjectCategory()}
@@ -88,7 +112,7 @@ export default function CreateProject({ }: Props) {
 
                 <div className='mt-3'>
                     <Editor
-                        initialValue={createProjectFrm.values.description}
+                        initialValue={productDetail.description}
                         init={{
                             height: 500,
                             menubar: false,

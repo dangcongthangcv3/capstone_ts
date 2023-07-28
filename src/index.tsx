@@ -14,6 +14,8 @@ import Project from './pages/Project/Project';
 import CreateProject from './pages/CreateProject/CreateProject';
 import Profile from './pages/Profile/Profile';
 import UserView from './pages/UserView/UserView';
+import EditDrawer from './Component/Drawer/EditDrawer';
+import EditProject from './pages/EditProject/EditProject';
 
 
 export const history: any = createBrowserHistory();
@@ -28,6 +30,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <GlobalCss>
     <Provider store={store}>
+      <EditDrawer />
       <HistoryRouter history={history}>
         <Routes>
 
@@ -38,10 +41,13 @@ root.render(
           </Route>
           <Route path='admin' element={<HomeTemplate />}>
             {/* <Route index element={<Home />}></Route> */}
-            <Route path='project' element={<Project />}></Route>
+            <Route path='project' element={<Project />}>
+            </Route>
             <Route path='createproject' element={<CreateProject />}></Route>
             <Route path='userview' element={<UserView />}></Route>
-            <Route path='Profile' element={<Profile />}></Route>
+            <Route path='profile' element={<Profile />}></Route>
+
+            <Route path='editproject/:id' element={<EditProject />}></Route>
           </Route>
 
 

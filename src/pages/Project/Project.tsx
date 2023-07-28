@@ -4,10 +4,10 @@ import { SearchOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from '
 import styles from './Project.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../Redux/ConfigStore';
-import { ProjectModel, deleteProject, getAllProject } from '../../Redux/reducers/DashBoardReducer';
+import DashBoardReducer, { ProjectModel, deleteProject, getAllProject } from '../../Redux/reducers/DashBoardReducer';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import Search from 'antd/es/input/Search';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -28,6 +28,7 @@ interface DataType {
 
 export default function Project({ }: Props) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   const { arrProject } = useSelector((state: RootState) => state.DashBoardReducer) as { arrProject: ProjectModel[] };
 
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -50,6 +51,8 @@ export default function Project({ }: Props) {
   useEffect(() => {
     getDataProductList();
   }, []);
+
+
 
   const columns: ColumnsType<DataType> = [
     {
@@ -136,7 +139,7 @@ export default function Project({ }: Props) {
 
   // Hàm xử lý khi click nút "Sửa"
   const handleEdit = (record: DataType) => {
-    // Thực hiện logic khi click nút "Sửa" ở đây
+    navigate(`/admin/editproject/${record.id}`)
     console.log('Sửa dự án với id:', record.id);
   };
 
