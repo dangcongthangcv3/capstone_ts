@@ -10,6 +10,7 @@ import { RootState, useAppDispatch } from '../../Redux/ConfigStore'
 import { useSelector } from 'react-redux'
 import { ColumnsType } from 'antd/es/table'
 import { deleteUserView, getUserView } from '../../Redux/reducers/UsersReducer'
+import { closeOpenEditDrawerAction, getUserDetailId } from '../../Redux/reducers/editUserViewReducer'
 
 type Props = {}
 
@@ -35,15 +36,29 @@ export default function UserView({ }: Props) {
     dispatch(actionApi);
   };
 
+  // Sửa
+  const handleEditUser = (record: DataType) => {
+    const action = getUserDetailId(record.userId)
+    dispatch(action)
+    dispatch(closeOpenEditDrawerAction(true))
+  };
+
+
   // Xóa
   const handleDelete = async (id: number) => {
     const actionDelete = deleteUserView(id)
-    
     await dispatch(actionDelete).unwrap();
     if (!!actionDelete) {
       getDataUserView()
     }
   };
+
+  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+    console.log('s1111')
+  };
+
+  const onSearch = (value: string): void => console.log(value);
 
   useEffect(() => {
     getDataUserView();
@@ -82,10 +97,10 @@ export default function UserView({ }: Props) {
       dataIndex: 'action',
       render: (_: any, record: DataType) => (
         <Dropdown
-          overlay={ // Đảm bảo menu nhận giá trị là một đối tượng Menu, không phải là một React Element
+          overlay={ 
             <Menu>
               <Menu.Item key="edit">
-                <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+                <Button type="link" icon={<EditOutlined />} onClick={() => handleEditUser(record)}>
                   Sửa
                 </Button>
               </Menu.Item>
@@ -113,20 +128,6 @@ export default function UserView({ }: Props) {
     email: userView.email,
     phoneNumber: userView.phoneNumber,
   }));
-
-  // Hàm xử lý khi click nút "Sửa"
-  const handleEdit = (record: DataType) => {
-    // Thực hiện logic khi click nút "Sửa" ở đây
-    console.log('Sửa dự án với id:', record.userId);
-  };
-
-
-
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
-
-  const onSearch = (value: string): void => console.log(value);
 
   return (
     <div className={styles.user}>

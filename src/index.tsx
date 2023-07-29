@@ -16,6 +16,7 @@ import Profile from './pages/Profile/Profile';
 import UserView from './pages/UserView/UserView';
 import EditDrawer from './Component/Drawer/EditDrawer';
 import EditProject from './pages/EditProject/EditProject';
+import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
 
 
 export const history: any = createBrowserHistory();
@@ -41,8 +42,9 @@ root.render(
           </Route>
           <Route path='admin' element={<HomeTemplate />}>
             {/* <Route index element={<Home />}></Route> */}
-            <Route path='project' element={<Project />}>
-            </Route>
+            <Route path='project' element={<Project />}></Route>
+            
+            <Route path='projectdetail/:id' element={<ProjectDetail />} ></Route>
             <Route path='createproject' element={<CreateProject />}></Route>
             <Route path='userview' element={<UserView />}></Route>
             <Route path='profile' element={<Profile />}></Route>

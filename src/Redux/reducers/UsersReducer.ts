@@ -212,6 +212,7 @@ export const updateprofile = createAsyncThunk(
     try {
       let url = '/api/Users/editUser';
       const response = await http.put(url, FormValues);
+      console.log('saasaa',response?.data?.content)
       openNotification('success','cập nhật thành công')
       console.log(response?.data?.content)
       return response?.data?.content;

@@ -67,7 +67,10 @@ export default function Project({ }: Props) {
       title: 'Project name',
       dataIndex: 'productName',
       // defaultSortOrder: 'descend',
-
+      render: (text:string, record:DataType,index:number)=>{
+        return<NavLink to={`/admin/projectdetail/${record.id}`}>{text}</NavLink>
+        
+      },
       sorter: (a: DataType, b: DataType) => a.productName.localeCompare(b.productName),
     },
     {

@@ -25,13 +25,21 @@ export interface LstTask {
   alias: string;
 }
 
-export interface EditProjectModel {
-  id: number
+export interface editUserViewModel {
+  id: number,
   projectName: string,
   creator:number,
   description: string,
   categoryId: number
 }
+
+// export interface editUserViewModel {
+//   userId: '',
+//   name: '',
+//   avatar: '',
+//   email: '',
+//   phoneNumber: ''
+// }
 
 export interface EditProjectState {
   visibleDrawer: boolean;
@@ -51,8 +59,8 @@ const initialState: EditProjectState = {
     alias: '',
   },
 };
-const editProjectReducer = createSlice({
-  name: 'editProjectReducer',
+const editUserViewReducer = createSlice({
+  name: 'editUserViewReducer',
   initialState,
   reducers: {
     closeOpenEditDrawerAction: (state, action) => {
@@ -68,9 +76,9 @@ const editProjectReducer = createSlice({
   },
 });
 
-export const { closeOpenEditDrawerAction } = editProjectReducer.actions
+export const { closeOpenEditDrawerAction } = editUserViewReducer.actions
 
-export default editProjectReducer.reducer
+export default editUserViewReducer.reducer
 
 export const getProjectDetail = createAsyncThunk(
   'dashboard/getProjectDetailApi',
@@ -91,14 +99,32 @@ export const updateproject = createAsyncThunk(
   // function tinhtong(a:number,b:number){
   //   return a+b
   // }
-  async (FormValues: EditProjectModel) => {
+  async (FormValues: editUserViewModel) => {
     try {
       let url = `api/Project/updateProject?projectId=${FormValues.id}`;
       const response = await http.put(url, FormValues);
-      console.log(response?.data?.content)
-      console.log(response)
       openNotification('success','cập nhật thành công')
       return response?.data?.content;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+
+export const getUserDetailId = createAsyncThunk(
+  'dashboard/getUserDetailIdApi',
+  // function tinhtong(a:number,b:number){
+  //   return a+b
+  // }
+  async (id:number) => {
+    try {
+      let url = `/api/Users/getUser?keyword=${id}`;
+      const response = await http.get(url);
+      console.log('getMe',response?.data?.content)
+      // return response?.data?.content;
+      return 0;
+
     } catch (err) {
       console.error(err);
     }

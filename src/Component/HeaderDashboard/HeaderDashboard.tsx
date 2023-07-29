@@ -62,9 +62,9 @@ export default function HeaderDashboard({ }: Props) {
                         </button>
                         <ul className={clsx('dropdown-menu dropdown-menu-dark', styles.dropdownMenuWhite)}>
                             <li><span>ATLASSIAN ADMIN </span></li>
-                            <li><NavLink className={styles.dropdownItem} to={''}>View all projects</NavLink></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/admin/userview'}>View all projects</NavLink></li>
                             <li><span>JIRA SETTINGS</span></li>
-                            <li><NavLink className={styles.dropdownItem} to={''}>Create project action</NavLink></li>
+                            <li><NavLink className={styles.dropdownItem} to={'/admin/project'}>Create project action</NavLink></li>
                         </ul>
                     </div>
                     <div className={clsx('dropdown', styles.dropdown)}>

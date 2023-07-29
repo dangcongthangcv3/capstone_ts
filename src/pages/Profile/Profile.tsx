@@ -32,7 +32,7 @@ export default function Profile({ }: Props) {
     }, [profileLocal.id]);
 
     const initialValues: UserProfileModel = {
-        id: 1,
+        id: -1,
         email: '',
         name: '',
         phoneNumber: '',
@@ -70,7 +70,7 @@ export default function Profile({ }: Props) {
                         <h3>{profileLocal.name}</h3>
                         <div className="mt-3 mb-3">
                             <label htmlFor="id" className={clsx('form-label', styles.lable)}>Id <span style={{ color: 'red' }}>*</span></label>
-                            <input type="text" className="form-control"
+                            <input type="number" className="form-control"
                                 disabled
                                 name='id'
                                 id='id'

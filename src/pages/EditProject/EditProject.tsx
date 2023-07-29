@@ -5,20 +5,20 @@ import { useFormik } from 'formik';
 import { Editor } from '@tinymce/tinymce-react';
 import { NavLink, useParams } from 'react-router-dom';
 import { getCategory } from '../../Redux/reducers/DashBoardReducer';
-import { EditProjectModel, updateproject, getProjectDetail } from '../../Redux/reducers/editProjectReducer';
+import { editUserViewModel, updateproject, getProjectDetail } from '../../Redux/reducers/editUserViewReducer';
 
 type Props = {};
 
 export default function EditProject({ }: Props) {
     const dispatch = useAppDispatch();
     const { CategoryName } = useSelector((state: RootState) => state.DashBoardReducer);
-    const { productDetail } = useSelector((state: RootState) => state.editProjectReducer);
+    const { productDetail } = useSelector((state: RootState) => state.editUserViewReducer);
     const { id } = useParams();
     const projectId = Number(id);
 
         //Formik
-            const initialValues: EditProjectModel = {
-                id: 1,
+            const initialValues: editUserViewModel = {
+                id: -1,
                 projectName: '',
                 creator: 0,
                 description: '',

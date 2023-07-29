@@ -3,14 +3,14 @@ import React from 'react'
 import EditDrawerContent from './EditDrawerContent'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../Redux/ConfigStore'
-import {closeOpenEditDrawerAction} from '../../Redux/reducers/editProjectReducer'
+import {closeOpenEditDrawerAction} from '../../Redux/reducers/editUserViewReducer'
 type Props = {}
 
 export default function EditDrawer({}: Props) {
     
 
     const dispatch = useDispatch()
-    const visibleDrawer = useSelector((state:RootState) => state.editProjectReducer.visibleDrawer);
+    const visibleDrawer = useSelector((state:RootState) => state.editUserViewReducer.visibleDrawer);
     const onClose = () => {
         const actionClose = closeOpenEditDrawerAction(false);
         dispatch(actionClose)
